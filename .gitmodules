@@ -2,3 +2,8 @@
 	path = code/lib/CPP_SPM
 	url = https://github.com/cpp-lln-lab/CPP_SPM.git
 	datalad-url = https://github.com/cpp-lln-lab/CPP_SPM.git
+[submodule "code/pipeline"]
+	path = code/pipeline
+	url = https://github.com/ReproNim/containers.git
+	datalad-id = b02e63c2-62c1-11e9-82b0-52540040489c
+	datalad-url = https://github.com/ReproNim/containers.git
