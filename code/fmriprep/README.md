@@ -52,15 +52,39 @@ datalad save -m "Add Freesurfer license file"
 ### Use datalad to call fmriprep
 
 ```bash
-sub_id=pilot001
-task_id="retinotopyDriftingBar*"
+sub_id="pilot001"
+task_id='retino'
 
 datalad containers-run \
   -m "Compute ${subid}" \
-  -n bids-fmriprep \
+  --container-name bids-fmriprep \
   --explicit \
-  -o outputs/derivatives \
-  -i inputs/raw/ \
-  -i code/license.txt \
-  "sh code/runfmriprep.sh $sub_id $task_id"
+  --output outputs/derivatives \
+  --input inputs/raw/sub-$sub_id/ses-001/anat \
+  --input inputs/raw/sub-$sub_id/ses-002/func/*${task_id}* \
+  --input code/license.txt \
+  "sh code/runfmriprep.sh $sub_id"
+```
+
+```bash
+sub_id="pilot001"
+task_id='retino'
+
+datalad containers-run \
+  -m "Compute ${subid}" \
+  --container-name bids-fmriprep \
+  --explicit \
+  --output outputs/derivatives \
+  --input inputs/raw/sub-$sub_id/ses-001/anat \
+  --input inputs/raw/sub-$sub_id/ses-002/func/*retinotopyDriftingBar* \
+  --input code/license.txt \
+  /singularity inputs/raw outputs/derivatives participant \
+    --participant-label $sub_id \
+    -w ouputs/derivatives/wdir \
+    -t retinotopyDriftingBar \
+    --fs-license-file code/license.txt \
+    --bids-filter-file code/fmriprep/bids_filter_file.json \
+    --skip-bids-validation \
+    --output-spaces \
+    --ignore fieldmaps
 ```
