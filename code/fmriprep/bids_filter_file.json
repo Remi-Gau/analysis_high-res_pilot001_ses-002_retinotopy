@@ -20,7 +20,9 @@
     },
     "t1w": {
         "datatype": "anat",
-        "suffix": "T1w"
+        "session": "001",
+        "suffix": "UNIT1",
+        "acquisition": "r0p75denoised"     
     },
     "roi": {
         "datatype": "anat",

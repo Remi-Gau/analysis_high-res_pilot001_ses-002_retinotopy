@@ -1,8 +1,5 @@
-# Running fmriprep with datalad
+# Running fmriprep
 
-Adapted from the F big workflow:
-
-https://github.com/psychoinformatics-de/fairly-big-processing-workflow/blob/main/bootstrap_forrest_fmriprep.sh
 
 ## Requirements
 
@@ -17,7 +14,49 @@ This will install those extensions.
 pip install -r code/requirements.txt
 ```
 
-## Install container image as subdataset
+## Freesurfer licence
+
+```bash
+path_to_FS_licence="$HOME/Dropbox/Softwares/Freesurfer/License/license.txt"
+cp ${path_to_FS_licence} code/license.txt
+datalad save -m "Add Freesurfer license file"
+```
+
+## Run with Docker
+
+from `code/fmriprep`
+
+```bash
+root_dir="$PWD/../.."
+input_dir=${root_dir}/inputs/raw
+output_dir=${root_dir}/outputs/derivatives
+code_dir=${root_dir}/code
+sub_id="pilot001"
+
+docker run -it --rm \
+	-v $code_dir:/code:ro \
+	-v $input_dir:/data:ro \
+	-v $data_dir:/out \
+  --user "$(id -u):$(id -g)" \
+	nipreps/fmriprep:21.0.1 /data/ /out/ \
+	participant --participant_label ${sub_id} \
+	--fs-license-file /code/license.txt \
+	--output-spaces T1w \
+  --work-dir ouputs/derivatives/wdir \
+  --task-id retino* \
+  --bids-filter-file code/fmriprep/bids_filter_file.json \
+  --skip-bids-validation \
+  --ignore fieldmaps
+```
+
+## Running with datalad
+
+Adapted from the F big workflow:
+
+https://github.com/psychoinformatics-de/fairly-big-processing-workflow/blob/main/bootstrap_forrest_fmriprep.sh
+
+
+### Install container image as subdataset
 
 ```bash
 container_name='bids-fmriprep'
@@ -41,14 +80,6 @@ datalad containers-add \
   $container_name
 ```
 
-## Freesurfer licence
-
-```bash
-path_to_FS_licence="$HOME/Dropbox/Softwares/Freesurfer/License/license.txt"
-cp ${path_to_FS_licence} code/license.txt
-datalad save -m "Add Freesurfer license file"
-```
-
 ### Use datalad to call fmriprep
 
 ```bash
@@ -64,27 +95,4 @@ datalad containers-run \
   --input inputs/raw/sub-$sub_id/ses-002/func/*${task_id}* \
   --input code/license.txt \
   "sh code/runfmriprep.sh $sub_id"
-```
-
-```bash
-sub_id="pilot001"
-task_id='retino'
-
-datalad containers-run \
-  -m "Compute ${subid}" \
-  --container-name bids-fmriprep \
-  --explicit \
-  --output outputs/derivatives \
-  --input inputs/raw/sub-$sub_id/ses-001/anat \
-  --input inputs/raw/sub-$sub_id/ses-002/func/*retinotopyDriftingBar* \
-  --input code/license.txt \
-  /singularity inputs/raw outputs/derivatives participant \
-    --participant-label $sub_id \
-    -w ouputs/derivatives/wdir \
-    -t retinotopyDriftingBar \
-    --fs-license-file code/license.txt \
-    --bids-filter-file code/fmriprep/bids_filter_file.json \
-    --skip-bids-validation \
-    --output-spaces \
-    --ignore fieldmaps
 ```
