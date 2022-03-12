@@ -12,3 +12,7 @@
 	url = git@gin.g-node.org:/RemiGau/V5_high-res_pilot-1_raw.git
 	datalad-id = 9f77e14c-ff39-4a80-9121-916e5892e2b4
 	datalad-url = git@gin.g-node.org:/RemiGau/V5_high-res_pilot-1_raw.git
+[submodule "outputs/derivatives"]
+	path = outputs/derivatives
+	url = ./outputs/derivatives
+	datalad-id = 97986654-4eac-42d9-bac2-aa80c282a397
