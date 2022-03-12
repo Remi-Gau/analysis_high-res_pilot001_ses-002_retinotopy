@@ -48,7 +48,7 @@ To do so, you need to:
 
 1. create on GIN the empty repository for each of the (sub)subdataset
 2. copy each (ssh) URL of the the just created GIN repo into `dataladConfig.sh`
-3. run ` bash dataladSetUp.sh`
+3. run `bash dataladSetUp.sh`
 
 Note that if any of the URLs in `dataladConfig.sh` is left empty then the
 subdatasets will still be created but no sibling will be added and you will have
