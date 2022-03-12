@@ -1,6 +1,6 @@
 [![made-with-datalad](https://www.datalad.org/badges/made_with.svg)](https://datalad.org)
 
-# Project <insert name>
+# Session 2 Retinotopy 
 
 This repo is made with
 [cpp-lln-lab/template_datalad_fMRI](https://github.com/cpp-lln-lab/template_datalad_fMRI).

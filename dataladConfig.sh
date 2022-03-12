@@ -19,7 +19,7 @@ URL_DER_PREPROC=''
 URL_DER_STATS=''
 
 # set to "true" instead of "false" if you want to use the bleeding edge version of CPP SPM
-USE_CPP_SPM_DEV=false
+USE_CPP_SPM_DEV=true
 
 
 if [ -z "${URL_RAW}" ]; then
