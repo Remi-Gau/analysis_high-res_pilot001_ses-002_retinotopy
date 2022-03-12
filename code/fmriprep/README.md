@@ -4,15 +4,26 @@ Adapted from the F big workflow:
 
 https://github.com/psychoinformatics-de/fairly-big-processing-workflow/blob/main/bootstrap_forrest_fmriprep.sh
 
+## Requirements
+
+- docker / singularity
+- dalalad extensions: mentioned in the [requirements.txt](../requirements.txt)
+  - neuroimaging
+  - containers
+
+This will install those extensions.
+
+```bash
+pip install -r code/requirements.txt
+```
 
 ## Install container image as subdataset
 
 ```bash
-containername='bids-fmriprep'
+container_name='bids-fmriprep'
 container="https://github.com/ReproNim/containers.git"
 
-
-# clone the container-dataset as a subdataset. 
+# clone the container-dataset as a subdataset.
 datalad clone -d . "${container}" code/pipeline
 
 # Register the container in the top-level dataset.
@@ -27,8 +38,8 @@ datalad clone -d . "${container}" code/pipeline
 datalad containers-add \
   --call-fmt 'singularity exec -B {{pwd}} --cleanenv {img} {cmd}' \
   -i code/pipeline/images/bids/bids-fmriprep--20.2.0.sing \
-  $containername
-```  
+  $container_name
+```
 
 ## Freesurfer licence
 
@@ -36,4 +47,20 @@ datalad containers-add \
 path_to_FS_licence="$HOME/Dropbox/Softwares/Freesurfer/License/license.txt"
 cp ${path_to_FS_licence} code/license.txt
 datalad save -m "Add Freesurfer license file"
+```
+
+### Use datalad to call fmriprep
+
+```bash
+sub_id=pilot001
+task_id="retinotopyDriftingBar*"
+
+datalad containers-run \
+  -m "Compute ${subid}" \
+  -n bids-fmriprep \
+  --explicit \
+  -o outputs/derivatives \
+  -i inputs/raw/ \
+  -i code/license.txt \
+  "sh code/runfmriprep.sh $sub_id $task_id"
 ```
