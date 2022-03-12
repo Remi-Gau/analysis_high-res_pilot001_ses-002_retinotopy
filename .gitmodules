@@ -7,3 +7,8 @@
 	url = https://github.com/ReproNim/containers.git
 	datalad-id = b02e63c2-62c1-11e9-82b0-52540040489c
 	datalad-url = https://github.com/ReproNim/containers.git
+[submodule "inputs/raw"]
+	path = inputs/raw
+	url = git@gin.g-node.org:/RemiGau/V5_high-res_pilot-1_raw.git
+	datalad-id = 9f77e14c-ff39-4a80-9121-916e5892e2b4
+	datalad-url = git@gin.g-node.org:/RemiGau/V5_high-res_pilot-1_raw.git
