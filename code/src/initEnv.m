@@ -104,7 +104,7 @@ function addDependencies()
 
     pth = fullfile(fileparts(mfilename('fullpath')), '..');
     addpath(fullfile(pth, 'lib', 'CPP_SPM'));
-    initCppSpm();
+    cpp_spm('init');
     addpath(fullfile(pth, 'src'));
 
 end

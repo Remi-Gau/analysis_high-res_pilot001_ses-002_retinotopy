@@ -1,5 +1,14 @@
 # Running fmriprep
 
+- [Running fmriprep](#running-fmriprep)
+  - [Requirements](#requirements)
+  - [Freesurfer licence](#freesurfer-licence)
+  - [Run with Docker](#run-with-docker)
+    - [Notes](#notes)
+  - [Run with singularity](#run-with-singularity)
+  - [Running with datalad](#running-with-datalad)
+    - [Install container image as subdataset](#install-container-image-as-subdataset)
+    - [Use datalad to call fmriprep](#use-datalad-to-call-fmriprep)
 
 ## Requirements
 
@@ -31,30 +40,49 @@ root_dir="$PWD/../.."
 input_dir=${root_dir}/inputs/raw
 output_dir=${root_dir}/outputs/derivatives
 code_dir=${root_dir}/code
+
 sub_id="pilot001"
+task_id="retinotopyDriftingBar"
 
 docker run -it --rm \
-	-v $code_dir:/code:ro \
-	-v $input_dir:/data:ro \
-	-v $data_dir:/out \
+	-v $code_dir:/code \
+	-v $input_dir:/data \
+	-v $output_dir:/out \
   --user "$(id -u):$(id -g)" \
-	nipreps/fmriprep:21.0.1 /data/ /out/ \
+	nipreps/fmriprep:21.0.1 /data/ /out/fmriprep \
 	participant --participant_label ${sub_id} \
 	--fs-license-file /code/license.txt \
 	--output-spaces T1w \
-  --work-dir ouputs/derivatives/wdir \
-  --task-id retino* \
-  --bids-filter-file code/fmriprep/bids_filter_file.json \
+  --task-id ${task_id} \
+  --work-dir /out/wdir/ \
+  --bids-filter-file /code/fmriprep/bids_filter_file.json \
   --skip-bids-validation \
   --ignore fieldmaps
 ```
+
+### Notes
+
+Note using the docker argument `--user "$(id -u):$(id -g)"` did not work because
+docker was not able to create the directories.
+
+Not tried: `--work-dir /out/wdir/`
+
+## Run with singularity
+
+See nipreps doc: https://www.nipreps.org/apps/singularity/
+
+Build singularity image:
+
+```
+singularity build   code/images/fmriprep-21.0.1.simg \
+                    docker://nipreps/fmriprep:21.0.1
+```                    
 
 ## Running with datalad
 
 Adapted from the F big workflow:
 
 https://github.com/psychoinformatics-de/fairly-big-processing-workflow/blob/main/bootstrap_forrest_fmriprep.sh
-
 
 ### Install container image as subdataset
 

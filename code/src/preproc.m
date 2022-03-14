@@ -1,4 +1,4 @@
-% (C) Copyright 2021 Remi Gau
+% (C) Copyright 2019 Remi Gau
 
 clear;
 clc;
@@ -7,15 +7,10 @@ clc;
 initEnv();
 
 %% Set options
-opt = demoGetOption();
-
-checkDependencies();
+opt = preprocOption();
 
 %% Run batches
-reportBIDS(opt);
-bidsCopyRawFolder(opt, 1);
-
-bidsSTC(opt);
+bidsCopyInputFolder(opt);
 
 bidsSpatialPrepro(opt);
 

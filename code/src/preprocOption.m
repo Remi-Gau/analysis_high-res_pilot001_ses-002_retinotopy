@@ -1,6 +1,6 @@
 % (C) Copyright 2020 Remi Gau, Marco Barilari
 
-function opt = getOption()
+function opt = preprocOption()
     %
     % returns a structure that contains the options chosen by the user to run
     % slice timing correction, pre-processing, subject and group level analysis.
@@ -14,37 +14,35 @@ function opt = getOption()
     end
 
     % If the following fields are left empty then all subjects will be analyzed.
-    % opt.groups = {''};
-    % opt.subjects = {[]};
-    %
-    % opt.subjects = {'01', '02'};
+    
+    opt.subjects = 'pilot001';
 
     % task to analyze
-    opt.taskName = [];
+    opt.taskName = 'retinotopyDriftingBar';
+    
+    opt.pipeline.type = 'preproc';
 
     % The directory where the data are located
-    opt.dataDir = [];
+    opt.dir.raw = fullfile(fileparts(mfilename('fullpath')), '..', '..', 'inputs', 'raw');
     % You can specify where you want the data to be saved if the default location
     % does not suit you.
-    % opt.derivativesDir = ''
+    opt.dir.derivatives = fullfile(fileparts( ...
+                                            mfilename('fullpath')), ...
+                                  '..', ...
+                                  '..', ...
+                                  'outputs', ...
+                                  'derivatives');
+    
+    opt.bidsFilterFile.bold.ses = '002';
+    opt.bidsFilterFile.bold.dir = '';
+    
+    opt.bidsFilterFile.t1w.suffix = 'UNIT1'; 
+    opt.bidsFilterFile.t1w.acq = '.*denoised'; 
 
     % If you use 'individual', then we stay in native space (that of the anat image)
     % set to 'MNI' to normalize data
     opt.space = 'individual';
 
-    % specify the model file that contains the contrasts to compute
-    opt.model.file =  [];
-
-    % specify the result to compute
-    opt.result.Steps(1) = struct( ...
-                                 'Level',  'subject', ...
-                                 'Contrasts', struct( ...
-                                                     'Name', [], ...
-                                                     'Mask', false, ...
-                                                     'MC', 'FWE', ...
-                                                     'p', 0.05, ...
-                                                     'k', 0, ...
-                                                     'NIDM', true));
 
     %% DO NOT TOUCH
     opt = checkOptions(opt);
