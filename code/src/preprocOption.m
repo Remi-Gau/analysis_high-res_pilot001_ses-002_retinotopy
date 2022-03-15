@@ -14,12 +14,12 @@ function opt = preprocOption()
     end
 
     % If the following fields are left empty then all subjects will be analyzed.
-    
+
     opt.subjects = 'pilot001';
 
     % task to analyze
     opt.taskName = 'retinotopyDriftingBar';
-    
+
     opt.pipeline.type = 'preproc';
 
     % The directory where the data are located
@@ -27,22 +27,21 @@ function opt = preprocOption()
     % You can specify where you want the data to be saved if the default location
     % does not suit you.
     opt.dir.derivatives = fullfile(fileparts( ...
-                                            mfilename('fullpath')), ...
-                                  '..', ...
-                                  '..', ...
-                                  'outputs', ...
-                                  'derivatives');
-    
+                                             mfilename('fullpath')), ...
+                                   '..', ...
+                                   '..', ...
+                                   'outputs', ...
+                                   'derivatives');
+
     opt.bidsFilterFile.bold.ses = '002';
     opt.bidsFilterFile.bold.dir = '';
-    
-    opt.bidsFilterFile.t1w.suffix = 'UNIT1'; 
-    opt.bidsFilterFile.t1w.acq = '.*denoised'; 
+
+    opt.bidsFilterFile.t1w.suffix = 'UNIT1';
+    opt.bidsFilterFile.t1w.acq = '.*denoised';
 
     % If you use 'individual', then we stay in native space (that of the anat image)
     % set to 'MNI' to normalize data
     opt.space = 'individual';
-
 
     %% DO NOT TOUCH
     opt = checkOptions(opt);
