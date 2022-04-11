@@ -23,7 +23,7 @@
         "session": "001",
         "suffix": "UNIT1",
         "acquisition": "r0p75denoised",
-        "dir": ""   
+        "dir": ""
     },
     "roi": {
         "datatype": "anat",
