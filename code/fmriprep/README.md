@@ -76,7 +76,7 @@ Build singularity image:
 ```
 singularity build   code/images/fmriprep-21.0.1.simg \
                     docker://nipreps/fmriprep:21.0.1
-```                    
+```
 
 ## Running with datalad
 
